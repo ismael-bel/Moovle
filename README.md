@@ -15,7 +15,7 @@ Fini les recommandations génériques : indiquez vos films préférés (et ceux 
 
 L'application propose deux approches :
 * **Recherche classique :** Des recommandations ciblées selon vos goûts exacts.
-* **Mode "Surprenez-moi" 🎲 :** Un mode qui vous sort volontairement de votre zone de confort (genres différents, autres époques, cinéma étranger) tout en gardant votre ADN émotionnel.
+* **Mode "🎲 Surprenez-moi !"  :** Un mode qui vous sort volontairement de votre zone de confort (genres différents, autres époques, cinéma étranger) tout en gardant votre ADN émotionnel.
 
 **Les petits plus qui font la différence :**
 * L'IA génère un court résumé pour expliquer pourquoi le film est recommandé.
