@@ -75,12 +75,20 @@ with col_centre:
     if recherche_classique:
         if likes:
             with st.spinner("L'IA réfléchit à vos goûts..."):
-                # strip() pour nettoyer les espaces, filter pour éviter les chaînes vides
                 likes_list    = [f.strip() for f in likes.split(',') if f.strip()]
                 dislikes_list = [f.strip() for f in dislikes.split(',') if f.strip()]
+                
                 res = recommander_films(likes_list, dislikes_list)
-                st.session_state.recos = res.get("recommandations", [])
-                st.session_state.historique_notes = []
+                
+                # Gestion de l'erreur
+                if "error" in res:
+                    if res["error"] == "quota":
+                        st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                    else:
+                        st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+                else:
+                    st.session_state.recos = res.get("recommandations", [])
+                    st.session_state.historique_notes = []
         else:
             st.warning("Veuillez entrer au moins un film préféré !")
 
@@ -90,9 +98,18 @@ with col_centre:
             with st.spinner("L'IA cherche une pépite inattendue..."):
                 likes_list    = [f.strip() for f in likes.split(',') if f.strip()]
                 dislikes_list = [f.strip() for f in dislikes.split(',') if f.strip()]
+                
                 res = recommander_films(likes_list, dislikes_list, mode="surprise")
-                st.session_state.recos = res.get("recommandations", [])
-                st.session_state.historique_notes = []
+                
+                # Gestion de l'erreur
+                if "error" in res:
+                    if res["error"] == "quota":
+                        st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                    else:
+                        st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+                else:
+                    st.session_state.recos = res.get("recommandations", [])
+                    st.session_state.historique_notes = []
         else:
             st.warning("J'ai besoin de vos films préférés pour pouvoir vous surprendre !")
 
@@ -145,8 +162,16 @@ if st.session_state.recos:
 
         with st.spinner("L'IA affine votre profil selon vos notes..."):
             res = recommander_films(nouveaux_likes, dislikes_list)
-            st.session_state.recos = res.get("recommandations", [])
-            st.rerun()
+            
+            # Gestion de l'erreur
+            if "error" in res:
+                if res["error"] == "quota":
+                    st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                else:
+                    st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+            else:
+                st.session_state.recos = res.get("recommandations", [])
+                st.rerun()
 
 # Historique des notes (panneau rétractable)
 if st.session_state.historique_notes:
