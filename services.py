@@ -92,7 +92,7 @@ def recommander_films(likes: List[str], dislikes: List[str], mode: str = "classi
     try:
         # response_mime_type force Gemini à répondre en JSON valide
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=prompt,
             config={'response_mime_type': 'application/json'}
         )
