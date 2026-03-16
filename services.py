@@ -99,4 +99,7 @@ def recommander_films(likes: List[str], dislikes: List[str], mode: str = "classi
         return json.loads(response.text)
     except Exception as e:
         logging.error(f"Erreur Gemini: {e}")
-        return {"recommandations": []}
+        # On vérifie si l'erreur est liée au quota (429)
+        if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+            return {"error": "quota"}
+        return {"error": "inconnue"}
