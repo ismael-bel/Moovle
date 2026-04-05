@@ -2,39 +2,66 @@
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-red) ![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-orange)
 
-> 🔗 **[Tester l'app](https://moovle-76549270860.europe-west9.run.app)**
+> 🔗 **[Try th app](https://moovle-76549270860.europe-west9.run.app)**
 
 
 ![Capture d'écran de l'application](Capture_Moovle.png)
 
-## C'est quoi ce projet ?
+What is Moovle?
 
-**Moovle** est un moteur de recommandation de films ultra-personnalisé. 
+Moovle is an ultra-personalized movie recommendation engine.
 
-Fini les recommandations génériques : indiquez vos films préférés (et ceux que vous aimez moins), et l'IA vous déniche 3 pépites sur mesure en affichant automatiquement **leurs affiches officielles**. 
+Forget generic suggestions: tell the app which movies you love (and the ones you don't), and our AI will handpick 3 hidden gems tailored just for you, complete with their official posters.
 
-L'application propose deux approches :
-* **Recherche classique :** Des recommandations ciblées selon vos goûts exacts.
-* **Mode "🎲 Surprenez-moi !"  :** Un mode qui vous sort volontairement de votre zone de confort (genres différents, autres époques, cinéma étranger) tout en gardant votre ADN émotionnel.
+Features
 
-**Les petits plus qui font la différence :**
-* L'IA génère un court résumé pour expliquer pourquoi le film est recommandé.
-* L'app vous dit directement sur quelle plateforme de streaming le film est disponible en France (Netflix, Prime, Disney+, etc.).
-* **Mémoire intelligente :** Si vous avez déjà vu l'un des films suggérés, notez-le (de 0 à 10). L'IA en tiendra compte pour affiner ses recommandations suivantes.
+The application offers two distinct approaches:
+Classic Search: Highly targeted recommendations based on your exact cinematic tastes.
+"Surprise Me!" Mode: A "discovery" mode designed to push you out of your comfort zone (different genres, eras, or foreign cinema) while still respecting your emotional DNA.
+
+The AI generates a brief summary explaining why each movie was specifically recommended for you.
+Where to Watch: The app identifies which streaming platforms currently host the movie in France (Netflix, Prime Video, Disney+, etc.).
+Smart Memory: Already seen one of the suggestions? Rate it (from 0 to 10), and the AI will instantly refine its future recommendations.
+
 
 ---
 
 ## Stack
 
-- **Google Gemini 2.0 Flash** — génération de recommandations
-- **TMDB API** — affiches + données cinéma + plateformes de streaming
-- **Streamlit** — interface web
-- **Docker + GCP Cloud Run** — déploiement
+Google Gemini 2.0 Flash — Recommendation engine logic.
+TMDB API — Movie posters, cinematic metadata, and streaming provider data.
+Streamlit — Web interface.
+Docker + GCP Cloud Run — Deployment and hosting.
 
 
-## Structure
 
-├── app.py           # Interface Streamlit  
-├── services.py      # Appels aux APIs (Gemini + TMDB)  
-├── requirements.txt  
-└── .env             # Clés API (non versionné)
+Project Structure
+
+├── app.py              # Streamlit interface
+├── services.py         # API integration (Gemini + TMDB)
+├── requirements.txt    # Dependencies
+└── .env                # API Keys (not versioned)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
