@@ -1,10 +1,10 @@
 import streamlit as st
 from services import recommander_films, get_movie_poster, get_streaming_logos
 
-# Config de base
+# Base configuration
 st.set_page_config(page_title="Moovle", layout="wide")
 
-# CSS custom pour le style Google
+# Custom CSS for Google-like styling
 st.markdown("""
     <style>
     @import url('https://fonts.cdnfonts.com/css/product-sans');
@@ -39,7 +39,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Streamlit recharge le script à chaque action, session_state permet de garder les données en mémoire
+# Streamlit reloads the script on every action; session_state keeps data in memory
 if 'recos' not in st.session_state:
     st.session_state.recos = []
 if 'historique_notes' not in st.session_state:
@@ -52,71 +52,71 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Centrer le contenu avec 3 colonnes (la colonne du milieu contient tout)
+# Center content using 3 columns (the middle column contains everything)
 _, col_centre, _ = st.columns([1, 2, 1])
 
 with col_centre:
     likes = st.text_input(
-        "Vos films préférés (séparés par des virgules) :",
-        placeholder="Ex: Inception, Interstellar..."
+        "Your favorite movies (separated by commas):",
+        placeholder="E.g.: Inception, Interstellar..."
     )
     dislikes = st.text_input(
-        "Films que vous n'aimez pas (optionnel) :",
-        placeholder="Ex: Twilight..."
+        "Movies you dislike (optional):",
+        placeholder="E.g.: Twilight..."
     )
 
     col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
-        recherche_classique = st.button("🎯Selon vos goûts !", use_container_width=True)
+        recherche_classique = st.button("🎯 Based on your tastes!", use_container_width=True)
     with col_btn2:
-        recherche_surprise = st.button("🎲 Surprenez-moi !", use_container_width=True)
+        recherche_surprise = st.button("🎲 Surprise me!", use_container_width=True)
 
-    # Recommandation classique basée sur les goûts
+    # Classic recommendation based on tastes
     if recherche_classique:
         if likes:
-            with st.spinner("L'IA réfléchit à vos goûts..."):
+            with st.spinner("AI is thinking about your tastes..."):
                 likes_list    = [f.strip() for f in likes.split(',') if f.strip()]
                 dislikes_list = [f.strip() for f in dislikes.split(',') if f.strip()]
                 
                 res = recommander_films(likes_list, dislikes_list)
                 
-                # Gestion de l'erreur
+                # Error handling
                 if "error" in res:
                     if res["error"] == "quota":
-                        st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                        st.error("⚠️ The AI is overloaded (request limit reached). Please wait 1 minute before trying again!")
                     else:
-                        st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+                        st.error("⚠️ An unknown error occurred with the AI. Please check the logs.")
                 else:
                     st.session_state.recos = res.get("recommandations", [])
                     st.session_state.historique_notes = []
         else:
-            st.warning("Veuillez entrer au moins un film préféré !")
+            st.warning("Please enter at least one favorite movie!")
 
-    # Mode surprise : on demande à l'IA de sortir de la zone de confort de l'utilisateur
+    # Surprise mode: requesting AI to step out of the user's comfort zone
     if recherche_surprise:
         if likes:
-            with st.spinner("L'IA cherche une pépite inattendue..."):
+            with st.spinner("AI is searching for an unexpected gem..."):
                 likes_list    = [f.strip() for f in likes.split(',') if f.strip()]
                 dislikes_list = [f.strip() for f in dislikes.split(',') if f.strip()]
                 
                 res = recommander_films(likes_list, dislikes_list, mode="surprise")
                 
-                # Gestion de l'erreur
+                # Error handling
                 if "error" in res:
                     if res["error"] == "quota":
-                        st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                        st.error("⚠️ The AI is overloaded (request limit reached). Please wait 1 minute before trying again!")
                     else:
-                        st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+                        st.error("⚠️ An unknown error occurred with the AI. Please check the logs.")
                 else:
                     st.session_state.recos = res.get("recommandations", [])
                     st.session_state.historique_notes = []
         else:
-            st.warning("J'ai besoin de vos films préférés pour pouvoir vous surprendre !")
+            st.warning("I need your favorite movies to be able to surprise you!")
 
-# Affichage des résultats en 3 colonnes
+# Displaying results in 3 columns
 if st.session_state.recos:
     st.write("---")
-    st.subheader("🍿 Suggestions pour vous")
+    st.subheader("🍿 Suggestions for you")
     st.write("")
 
     cols = st.columns(3)
@@ -124,17 +124,17 @@ if st.session_state.recos:
 
     for i, film in enumerate(st.session_state.recos):
         with cols[i]:
-            # Affiche via TMDB
+            # Poster via TMDB
             url = get_movie_poster(film["titre"])
             st.image(url, use_container_width=True)
 
             st.markdown(f"### {film['titre']}")
-            st.caption(f"📝 {film.get('resume', 'Résumé indisponible.')}")
+            st.caption(f"📝 {film.get('resume', 'Summary unavailable.')}")
 
-            # Plateformes dispo en France (données JustWatch via TMDB)
+            # Platforms available in France (JustWatch data via TMDB)
             logos_plateformes = get_streaming_logos(film["titre"])
             if logos_plateformes:
-                st.write("**Disponible sur :**")
+                st.write("**Available on:**")
                 logo_cols = st.columns(len(logos_plateformes) + 5)
                 for idx, logo in enumerate(logos_plateformes):
                     with logo_cols[idx]:
@@ -142,16 +142,16 @@ if st.session_state.recos:
 
             st.write("")
 
-            # Clé unique par film pour éviter les conflits de widgets Streamlit
-            deja_vu = st.checkbox("Je l'ai vu", key=f"vu_{film['titre']}_{i}")
+            # Unique key per movie to avoid Streamlit widget conflicts
+            deja_vu = st.checkbox("I've seen it", key=f"vu_{film['titre']}_{i}")
             if deja_vu:
-                note = st.slider("Votre note :", 0, 10, 5, key=f"note_{film['titre']}")
+                note = st.slider("Your rating:", 0, 10, 5, key=f"note_{film['titre']}")
                 notes_actuelles[film["titre"]] = note
 
     st.divider()
 
-    # Relance l'IA en lui passant les notes comme contexte supplémentaire
-    if st.button("🔄 Relancer l'IA en prenant en compte mes notes"):
+    # Relaunch AI passing ratings as additional context
+    if st.button("🔄 Relaunch AI taking my ratings into account"):
         for titre, note in notes_actuelles.items():
             feedback = f"The user watched '{titre}' and rated it {note}/10."
             st.session_state.historique_notes.append(feedback)
@@ -160,21 +160,21 @@ if st.session_state.recos:
         dislikes_list = [f.strip() for f in dislikes.split(',') if f.strip()]
         nouveaux_likes = likes_list + st.session_state.historique_notes
 
-        with st.spinner("L'IA affine votre profil selon vos notes..."):
+        with st.spinner("AI is refining your profile based on your ratings..."):
             res = recommander_films(nouveaux_likes, dislikes_list)
             
-            # Gestion de l'erreur
+            # Error handling
             if "error" in res:
                 if res["error"] == "quota":
-                    st.error("⚠️ L'IA est surchargée (limite de requêtes atteinte). Veuillez patienter 1 minute avant de réessayer !")
+                    st.error("⚠️ The AI is overloaded (request limit reached). Please wait 1 minute before trying again!")
                 else:
-                    st.error("⚠️ Une erreur inconnue est survenue avec l'IA. Consultez les logs.")
+                    st.error("⚠️ An unknown error occurred with the AI. Please check the logs.")
             else:
                 st.session_state.recos = res.get("recommandations", [])
                 st.rerun()
 
-# Historique des notes (panneau rétractable)
+# Rating history (collapsible expander)
 if st.session_state.historique_notes:
-    with st.expander("📝 Voir la mémoire de l'IA (Historique)"):
+    with st.expander("📝 View AI Memory (History)"):
         for h in st.session_state.historique_notes:
             st.write(f"- {h}")
