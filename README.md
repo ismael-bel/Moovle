@@ -18,9 +18,9 @@ Forget generic suggestions: tell the app which movies you love (and the ones you
 
 The application offers two distinct approaches:
 
-**Classic Search:** Highly targeted recommendations based on your exact cinematic tastes.
+* **"Based on Your Taste":** Highly targeted recommendations strictly aligned with your cinematic DNA.
 
-**"Surprise Me!" Mode:** A "discovery" mode designed to push you out of your comfort zone (different genres, eras, or foreign cinema) while still respecting your emotional DNA.
+* **"Surprise Me!":** A "discovery" mode designed to push you out of your comfort zone (different genres, eras, or foreign cinema) while still respecting your emotional DNA.
 
 **AI Explanations:** The AI generates a brief summary explaining why each movie was specifically recommended for you.
 
